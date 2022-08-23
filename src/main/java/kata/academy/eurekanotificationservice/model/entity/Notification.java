@@ -14,14 +14,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Entity
-@Table(name = "notifications")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "notifications")
 public class Notification {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,21 +46,12 @@ public class Notification {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Notification that = (Notification) o;
-
-        if (recipientId != null ? !recipientId.equals(that.recipientId) : that.recipientId != null) return false;
-        if (text != null ? !text.equals(that.text) : that.text != null) return false;
-        if (time != null ? !time.equals(that.time) : that.time != null) return false;
-        return isViewed != null ? isViewed.equals(that.isViewed) : that.isViewed == null;
+        return Objects.equals(id, that.id) && Objects.equals(recipientId, that.recipientId) && Objects.equals(text, that.text) && Objects.equals(time, that.time) && Objects.equals(isViewed, that.isViewed);
     }
 
     @Override
     public int hashCode() {
-        int result = recipientId != null ? recipientId.hashCode() : 0;
-        result = 31 * result + (text != null ? text.hashCode() : 0);
-        result = 31 * result + (time != null ? time.hashCode() : 0);
-        result = 31 * result + (isViewed != null ? isViewed.hashCode() : 0);
-        return result;
+        return Objects.hash(id, recipientId, text, time, isViewed);
     }
 }
