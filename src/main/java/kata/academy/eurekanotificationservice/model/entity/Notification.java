@@ -37,9 +37,11 @@ public class Notification {
     private String text;
 
     @NotNull
+    @Column(nullable = false)
     private LocalDateTime time;
 
     @NotNull
+    @Column(nullable = false)
     private Boolean isViewed;
 
     @Override
