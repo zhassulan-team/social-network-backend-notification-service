@@ -6,13 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface NotificationService {
 
-    Notification addNotification(Notification notification);
-
-    Notification updateNotification(Notification notification);
-
-    void deleteById(Long notificationId);
-
     Page<Notification> findAll(Pageable pageable);
 
-    Page<Notification> findById(Long userId, Pageable pageable);
+    Page<Notification> findAll(Long userId, Pageable pageable);
 }
