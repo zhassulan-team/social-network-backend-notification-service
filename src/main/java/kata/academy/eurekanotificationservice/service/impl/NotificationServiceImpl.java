@@ -10,34 +10,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Service
 @Transactional
+@Service
 public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;
 
     @Override
-    public Notification addNotification(Notification notification) {
-        return notificationRepository.save(notification);
-    }
-
-    @Override
-    public Notification updateNotification(Notification notification) {
-        return notificationRepository.save(notification);
-    }
-
-    @Override
-    public void deleteById(Long notificationId) {
-        notificationRepository.deleteById(notificationId);
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public Page<Notification> findAll(Pageable pageable) {
         return notificationRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Notification> findById(Long userId, Pageable pageable) {
-        return notificationRepository.findById(userId, pageable);
+    @Transactional(readOnly = true)
+    public Page<Notification> findAll(Long userId, Pageable pageable) {
+        return notificationRepository.findAll(userId, pageable);
     }
 }
