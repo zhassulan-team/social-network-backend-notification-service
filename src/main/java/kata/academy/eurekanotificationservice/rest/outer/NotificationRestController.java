@@ -35,9 +35,9 @@ public class NotificationRestController {
                                                             @RequestParam @Positive Long userId,
                                                             Pageable pageable) {
         if (isViewed != null) {
-            return Response.ok(notificationService.findAll(userId, pageable));
+            return Response.ok(notificationService.findAll(userId, isViewed, pageable));
         } else {
-            return Response.ok(notificationService.findAll(pageable));
+            return Response.ok(notificationService.findAll(userId, pageable));
         }
     }
 }
