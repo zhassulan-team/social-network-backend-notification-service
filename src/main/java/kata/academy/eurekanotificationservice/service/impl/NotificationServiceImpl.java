@@ -16,21 +16,15 @@ public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    @Override
     @Transactional(readOnly = true)
-    public Page<Notification> findAll(Pageable pageable) {
-        return notificationRepository.findAll(pageable);
+    @Override
+    public Page<Notification> findAllByRecipientId(Long recipientId, Pageable pageable) {
+        return notificationRepository.findAllByRecipientId(recipientId, pageable);
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public Page<Notification> findAll(Long userId, Pageable pageable) {
-        return notificationRepository.findAll(userId, pageable);
-    }
-
     @Override
-    @Transactional(readOnly = true)
-    public Page<Notification> findAll(Long userId, Boolean isViewed, Pageable pageable) {
-        return notificationRepository.findAll(userId, isViewed, pageable);
+    public Page<Notification> findAllByIsViewedAndRecipientId(Boolean isViewed, Long recipientId, Pageable pageable) {
+        return notificationRepository.findAllByIsViewedAndRecipientId(isViewed, recipientId, pageable);
     }
 }
