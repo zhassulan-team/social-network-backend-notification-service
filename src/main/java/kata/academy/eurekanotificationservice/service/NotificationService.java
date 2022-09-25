@@ -9,4 +9,6 @@ public interface NotificationService {
     Page<Notification> findAllByRecipientId(Long recipientId, Pageable pageable);
 
     Page<Notification> findAllByIsViewedAndRecipientId(Boolean isViewed, Long recipientId, Pageable pageable);
+
+    void addNotification(String text, Long recipientId);
 }

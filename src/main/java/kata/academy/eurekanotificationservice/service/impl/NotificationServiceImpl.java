@@ -9,6 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -27,4 +30,17 @@ public class NotificationServiceImpl implements NotificationService {
     public Page<Notification> findAllByIsViewedAndRecipientId(Boolean isViewed, Long recipientId, Pageable pageable) {
         return notificationRepository.findAllByIsViewedAndRecipientId(isViewed, recipientId, pageable);
     }
+
+    @Transactional
+    @Override
+    public void addNotification(String text, Long recipientId) {
+        notificationRepository.save(Notification.builder()
+                .recipientId(recipientId)
+                .text(text)
+                .isViewed(false)
+                .time(LocalDateTime.now())
+                .build());
+    }
+
+
 }
