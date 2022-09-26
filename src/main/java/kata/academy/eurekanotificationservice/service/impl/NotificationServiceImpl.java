@@ -30,7 +30,6 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.findAllByIsViewedAndRecipientId(isViewed, recipientId, pageable);
     }
 
-    @Transactional
     @Override
     public void addNotification(String text, Long recipientId) {
         notificationRepository.save(
