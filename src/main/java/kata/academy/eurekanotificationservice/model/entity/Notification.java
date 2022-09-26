@@ -1,6 +1,10 @@
 package kata.academy.eurekanotificationservice.model.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,11 +51,11 @@ public class Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return Objects.equals(id, that.id) && Objects.equals(recipientId, that.recipientId) && Objects.equals(text, that.text) && Objects.equals(time, that.time) && Objects.equals(isViewed, that.isViewed);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, recipientId, text, time, isViewed);
+        return Objects.hash(id);
     }
 }

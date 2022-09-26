@@ -2,7 +2,6 @@ package kata.academy.eurekanotificationservice.rest.inner;
 
 import kata.academy.eurekanotificationservice.service.NotificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,6 @@ public class NotificationInternalRestController {
     public ResponseEntity<Void> addNotification(@RequestParam @NotBlank String text,
                                                 @RequestParam @Positive Long recipientId) {
         notificationService.addNotification(text, recipientId);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.ok().build();
     }
 }
