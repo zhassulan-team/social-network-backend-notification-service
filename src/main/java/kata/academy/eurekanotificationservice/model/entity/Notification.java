@@ -44,7 +44,15 @@ public class Notification {
     @Column(nullable = false)
     private Boolean isViewed;
 
+    public Notification(Long recipientId, String text, LocalDateTime time, Boolean isViewed) {
+        this.recipientId = recipientId;
+        this.text = text;
+        this.time = time;
+        this.isViewed = isViewed;
+    }
+
     @Override
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
