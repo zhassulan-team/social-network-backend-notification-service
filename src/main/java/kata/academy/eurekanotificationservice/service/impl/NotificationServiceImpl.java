@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -39,5 +41,15 @@ public class NotificationServiceImpl implements NotificationService {
                         .isViewed(false)
                         .time(LocalDateTime.now())
                         .build());
+    }
+
+    @Override
+    public Optional<Notification> findByIdAndRecipientId(Long notificationId, Long userId) {
+        return notificationRepository.findByIdAndRecipientId(notificationId, userId);
+    }
+
+    @Override
+    public List<Notification> findAllByRecipientId(Long userId) {
+        return notificationRepository.findAllByRecipientId(userId);
     }
 }
