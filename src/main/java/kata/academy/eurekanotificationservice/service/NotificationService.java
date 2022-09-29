@@ -6,9 +6,11 @@ import org.springframework.data.domain.Pageable;
 
 public interface NotificationService {
 
-    Page<Notification> findAllByRecipientId(Long recipientId, Pageable pageable);
-
     Page<Notification> findAllByIsViewedAndRecipientId(Boolean isViewed, Long recipientId, Pageable pageable);
 
     void addNotification(String text, Long recipientId);
+
+    void viewNotification(Long notificationId, Long recipientId);
+
+    void viewAllNotifications(Long recipientId);
 }
