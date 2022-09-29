@@ -3,6 +3,7 @@ package kata.academy.eurekanotificationservice.service.impl;
 import kata.academy.eurekanotificationservice.model.entity.Notification;
 import kata.academy.eurekanotificationservice.repository.NotificationRepository;
 import kata.academy.eurekanotificationservice.service.NotificationService;
+import kata.academy.eurekanotificationservice.util.ApiValidationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -22,14 +22,11 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Notification> findAllByRecipientId(Long recipientId, Pageable pageable) {
-        return notificationRepository.findAllByRecipientId(recipientId, pageable);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
     public Page<Notification> findAllByIsViewedAndRecipientId(Boolean isViewed, Long recipientId, Pageable pageable) {
-        return notificationRepository.findAllByIsViewedAndRecipientId(isViewed, recipientId, pageable);
+        if (isViewed != null) {
+            return notificationRepository.findAllByIsViewedAndRecipientId(isViewed, recipientId, pageable);
+        }
+        return notificationRepository.findAllByRecipientId(recipientId, pageable);
     }
 
     @Override
@@ -44,12 +41,16 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Optional<Notification> findByIdAndRecipientId(Long notificationId, Long userId) {
-        return notificationRepository.findByIdAndRecipientId(notificationId, userId);
+    public void viewNotification(Long notificationId, Long recipientId) {
+        Optional<Notification> notificationOptional = notificationRepository.findByIdAndRecipientId(notificationId, recipientId);
+        ApiValidationUtil.requireTrue(notificationOptional.isPresent(), String.format("Уведомление с notificationId %d и userId %d нет в базе данных", notificationId, recipientId));
+        Notification notification = notificationOptional.get();
+        notification.setIsViewed(true);
+        notificationRepository.save(notification);
     }
 
     @Override
-    public List<Notification> findAllByRecipientId(Long userId) {
-        return notificationRepository.findAllByRecipientId(userId);
+    public void viewAllNotifications(Long recipientId) {
+        notificationRepository.viewAllNotifications(recipientId);
     }
 }
