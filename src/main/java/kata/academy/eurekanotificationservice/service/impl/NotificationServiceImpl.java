@@ -4,13 +4,14 @@ import kata.academy.eurekanotificationservice.model.entity.Notification;
 import kata.academy.eurekanotificationservice.repository.NotificationRepository;
 import kata.academy.eurekanotificationservice.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional
@@ -41,6 +42,5 @@ public class NotificationServiceImpl implements NotificationService {
                 .time(LocalDateTime.now())
                 .build());
     }
-
 
 }

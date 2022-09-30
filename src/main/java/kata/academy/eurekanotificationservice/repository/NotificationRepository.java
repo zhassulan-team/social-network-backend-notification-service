@@ -5,9 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
+
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
     Page<Notification> findAllByRecipientId(Long recipientId, Pageable pageable);
 
     Page<Notification> findAllByIsViewedAndRecipientId(Boolean isViewed, Long recipientId, Pageable pageable);
+
+    void deleteAllByTimeIsBefore(LocalDateTime time);
 }
