@@ -5,7 +5,6 @@ import kata.academy.eurekanotificationservice.repository.NotificationRepository;
 import kata.academy.eurekanotificationservice.service.NotificationService;
 import kata.academy.eurekanotificationservice.util.ApiValidationUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -54,5 +53,10 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void viewAllNotifications(Long recipientId) {
         notificationRepository.viewAllNotifications(recipientId);
+    }
+
+    @Override
+    public List<Notification> findAll(LocalDateTime localDateTime) {
+        return notificationRepository.findAll();
     }
 }

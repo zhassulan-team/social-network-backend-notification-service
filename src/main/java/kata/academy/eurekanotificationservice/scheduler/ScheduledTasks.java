@@ -1,8 +1,6 @@
 package kata.academy.eurekanotificationservice.scheduler;
 
-import kata.academy.eurekanotificationservice.repository.NotificationRepository;
-import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
+import kata.academy.eurekanotificationservice.service.NotificationService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,18 +10,19 @@ import java.time.LocalDateTime;
 @Component
 public class ScheduledTasks {
 
-    private final NotificationRepository notificationRepository;
 
-    @Value("${days.to.delete}")
-    private Long DAYS_TO_DELETE;
+    private final NotificationService notificationService;
 
-    public ScheduledTasks(NotificationRepository notificationRepository) {
-        this.notificationRepository = notificationRepository;
+    private static final int daysToDelete = 180;
+
+    public ScheduledTasks(NotificationService notificationService) {
+
+        this.notificationService = notificationService;
     }
 
-    @Scheduled(cron = "${delete.notifications.cron}")
+    @Scheduled(cron = "0 0 1 * * * ")
     @Transactional
     public void deleteOldNotification() {
-        notificationRepository.deleteAllByTimeIsBefore(LocalDateTime.now().minusDays(DAYS_TO_DELETE));
+        notificationService.findAll(LocalDateTime.now().minusDays(daysToDelete));
     }
 }
