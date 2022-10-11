@@ -4,6 +4,8 @@ import kata.academy.eurekanotificationservice.model.entity.Notification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
+
 public interface NotificationService {
 
     Page<Notification> findAllByIsViewedAndRecipientId(Boolean isViewed, Long recipientId, Pageable pageable);
@@ -13,4 +15,6 @@ public interface NotificationService {
     void viewNotification(Long notificationId, Long recipientId);
 
     void viewAllNotifications(Long recipientId);
+
+    void deleteByTimeBetween(LocalDateTime from, LocalDateTime now);
 }

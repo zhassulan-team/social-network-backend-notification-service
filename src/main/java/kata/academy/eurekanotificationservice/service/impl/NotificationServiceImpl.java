@@ -53,4 +53,9 @@ public class NotificationServiceImpl implements NotificationService {
     public void viewAllNotifications(Long recipientId) {
         notificationRepository.viewAllNotifications(recipientId);
     }
+
+    @Override
+    public void deleteByTimeBetween(LocalDateTime from, LocalDateTime now) {
+        notificationRepository.deleteByTimeBetween(from, now);
+    }
 }
