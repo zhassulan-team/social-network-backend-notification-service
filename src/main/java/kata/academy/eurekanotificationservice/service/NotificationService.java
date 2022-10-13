@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public interface NotificationService {
 
@@ -17,4 +18,6 @@ public interface NotificationService {
     void viewAllNotifications(Long recipientId);
 
     void deleteByTimeBetween(LocalDateTime from, LocalDateTime now);
+
+    void addNotificationsMap(HashMap<String, Long> mapOfRawNotifications);
 }
