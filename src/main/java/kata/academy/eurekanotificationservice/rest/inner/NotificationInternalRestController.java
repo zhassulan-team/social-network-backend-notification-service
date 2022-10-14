@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.HashMap;
 
 @RequiredArgsConstructor
 @Validated
@@ -24,6 +26,12 @@ public class NotificationInternalRestController {
     public ResponseEntity<Void> addNotification(@RequestParam @NotBlank String text,
                                                 @RequestParam @Positive Long recipientId) {
         notificationService.addNotification(text, recipientId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/addNotificationsMap")
+    public ResponseEntity<Void> addNotificationsMap(@RequestBody HashMap<String, Long> mapOfRawNotifications) {
+        notificationService.addNotificationsMap(mapOfRawNotifications);
         return ResponseEntity.ok().build();
     }
 }

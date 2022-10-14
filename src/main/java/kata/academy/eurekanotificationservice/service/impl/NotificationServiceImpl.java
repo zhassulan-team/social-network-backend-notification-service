@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -41,6 +45,21 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public void addNotificationsMap(HashMap<String, Long> mapOfRawNotifications) {
+        List<Notification> notificationsList = new ArrayList<>();
+        for (Map.Entry<String, Long> rawNotification: mapOfRawNotifications.entrySet()) {
+            Notification notification = Notification.builder()
+                    .recipientId(rawNotification.getValue())
+                    .text(rawNotification.getKey())
+                    .isViewed(false)
+                    .time(LocalDateTime.now())
+                    .build();
+            notificationsList.add(notification);
+        }
+        notificationRepository.saveAll(notificationsList);
+    }
+
+    @Override
     public void viewNotification(Long notificationId, Long recipientId) {
         Optional<Notification> notificationOptional = notificationRepository.findByIdAndRecipientId(notificationId, recipientId);
         ApiValidationUtil.requireTrue(notificationOptional.isPresent(), String.format("Уведомление с notificationId %d и userId %d нет в базе данных", notificationId, recipientId));
@@ -58,4 +77,6 @@ public class NotificationServiceImpl implements NotificationService {
     public void deleteByTimeBetween(LocalDateTime from, LocalDateTime now) {
         notificationRepository.deleteByTimeBetween(from, now);
     }
+
+
 }
