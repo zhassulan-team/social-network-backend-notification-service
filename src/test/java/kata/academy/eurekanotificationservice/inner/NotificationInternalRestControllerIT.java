@@ -1,7 +1,6 @@
 package kata.academy.eurekanotificationservice.inner;
 
 import kata.academy.eurekanotificationservice.SpringSimpleContextTest;
-import kata.academy.eurekanotificationservice.model.dto.NotificationPersistRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -17,11 +16,9 @@ public class NotificationInternalRestControllerIT extends SpringSimpleContextTes
     public void addNotification_SuccessfulTest() throws Exception {
         Long recipientId = 2L;
         String text = "You have new message";
-        NotificationPersistRequestDto dto = new NotificationPersistRequestDto(text,null,false);
         mockMvc.perform(post("/api/internal/v1/notifications")
                         .param("text", text)
                         .param("recipientId", recipientId.toString())
-                        .content(objectMapper.writeValueAsString(dto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -34,8 +31,8 @@ public class NotificationInternalRestControllerIT extends SpringSimpleContextTes
                                 AND n.text = :text
                                 """, Boolean.class)
                 .setParameter("recipientId", recipientId)
-                .setParameter("isViewed", dto.isViewed())
-                .setParameter("text", dto.text())
+                .setParameter("isViewed", false)
+                .setParameter("text", text)
                 .getSingleResult());
     }
 }
