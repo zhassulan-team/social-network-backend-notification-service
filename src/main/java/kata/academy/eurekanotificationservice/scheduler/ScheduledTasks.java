@@ -15,7 +15,6 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 1 * * *")
     public void deleteNotificationsOlderThanSixMonths() {
-        LocalDateTime now = LocalDateTime.now();
-        notificationService.deleteByTimeBetween(LocalDateTime.from(now.minusMonths(6)), now);
+        notificationService.deleteByCreatedDateAtBefore(LocalDateTime.now().minusMonths(6));
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Validated
@@ -23,15 +23,15 @@ public class NotificationInternalRestController {
     private final NotificationService notificationService;
 
     @PostMapping
-    public ResponseEntity<Void> addNotification(@RequestParam @NotBlank String text,
+    public ResponseEntity<Void> addNotification(@RequestBody @NotBlank String text,
                                                 @RequestParam @Positive Long recipientId) {
         notificationService.addNotification(text, recipientId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/addNotificationsMap")
-    public ResponseEntity<Void> addNotificationsMap(@RequestBody HashMap<String, Long> mapOfRawNotifications) {
-        notificationService.addNotificationsMap(mapOfRawNotifications);
+    @PostMapping("/map")
+    public ResponseEntity<Void> addNotificationsByMap(@RequestBody Map<Long, String> notificationMap) {
+        notificationService.addNotificationsByMap(notificationMap);
         return ResponseEntity.ok().build();
     }
 }

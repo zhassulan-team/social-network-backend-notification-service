@@ -1,6 +1,6 @@
 package kata.academy.eurekanotificationservice.service.impl;
 
-import kata.academy.eurekanotificationservice.model.entity.Notification;
+import kata.academy.eurekanotificationservice.entity.Notification;
 import kata.academy.eurekanotificationservice.repository.NotificationRepository;
 import kata.academy.eurekanotificationservice.service.NotificationService;
 import kata.academy.eurekanotificationservice.util.ApiValidationUtil;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,27 +35,29 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void addNotification(String text, Long recipientId) {
         notificationRepository.save(
-                Notification.builder()
+                Notification
+                        .builder()
                         .recipientId(recipientId)
                         .text(text)
                         .isViewed(false)
-                        .time(LocalDateTime.now())
+                        .createdDate(LocalDateTime.now())
                         .build());
     }
 
     @Override
-    public void addNotificationsMap(HashMap<String, Long> mapOfRawNotifications) {
-        List<Notification> notificationsList = new ArrayList<>();
-        for (Map.Entry<String, Long> rawNotification: mapOfRawNotifications.entrySet()) {
-            Notification notification = Notification.builder()
-                    .recipientId(rawNotification.getValue())
-                    .text(rawNotification.getKey())
+    public void addNotificationsByMap(Map<Long, String> notificationMap) {
+        List<Notification> notificationList = new ArrayList<>();
+        for (Map.Entry<Long, String> notificationEntry : notificationMap.entrySet()) {
+            Notification notification = Notification
+                    .builder()
+                    .recipientId(notificationEntry.getKey())
+                    .text(notificationEntry.getValue())
                     .isViewed(false)
-                    .time(LocalDateTime.now())
+                    .createdDate(LocalDateTime.now())
                     .build();
-            notificationsList.add(notification);
+            notificationList.add(notification);
         }
-        notificationRepository.saveAll(notificationsList);
+        notificationRepository.saveAll(notificationList);
     }
 
     @Override
@@ -74,9 +75,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void deleteByTimeBetween(LocalDateTime from, LocalDateTime now) {
-        notificationRepository.deleteByTimeBetween(from, now);
+    public void deleteByCreatedDateAtBefore(LocalDateTime createdDate) {
+        notificationRepository.deleteByCreatedDateAtBefore(createdDate);
     }
-
-
 }

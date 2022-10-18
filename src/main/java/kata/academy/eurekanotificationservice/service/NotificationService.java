@@ -1,11 +1,11 @@
 package kata.academy.eurekanotificationservice.service;
 
-import kata.academy.eurekanotificationservice.model.entity.Notification;
+import kata.academy.eurekanotificationservice.entity.Notification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.Map;
 
 public interface NotificationService {
 
@@ -17,7 +17,7 @@ public interface NotificationService {
 
     void viewAllNotifications(Long recipientId);
 
-    void deleteByTimeBetween(LocalDateTime from, LocalDateTime now);
+    void deleteByCreatedDateAtBefore(LocalDateTime createdDate);
 
-    void addNotificationsMap(HashMap<String, Long> mapOfRawNotifications);
+    void addNotificationsByMap(Map<Long, String> notificationMap);
 }

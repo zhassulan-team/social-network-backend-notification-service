@@ -1,4 +1,4 @@
-package kata.academy.eurekanotificationservice.model.entity;
+package kata.academy.eurekanotificationservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,7 +40,7 @@ public class Notification {
 
     @NotNull
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDateTime createdDate;
 
     @NotNull
     @Column(nullable = false)

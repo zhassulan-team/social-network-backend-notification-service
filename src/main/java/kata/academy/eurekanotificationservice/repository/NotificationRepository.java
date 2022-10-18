@@ -1,6 +1,6 @@
 package kata.academy.eurekanotificationservice.repository;
 
-import kata.academy.eurekanotificationservice.model.entity.Notification;
+import kata.academy.eurekanotificationservice.entity.Notification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +26,11 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
                                 """)
     void viewAllNotifications(Long recipientId);
 
-    void deleteByTimeBetween(LocalDateTime from, LocalDateTime now);
+    @Modifying
+    @Query("""
+            DELETE
+            FROM Notification n
+            WHERE n.createdDate < :createdDate
+                                """)
+    void deleteByCreatedDateAtBefore(LocalDateTime createdDate);
 }
