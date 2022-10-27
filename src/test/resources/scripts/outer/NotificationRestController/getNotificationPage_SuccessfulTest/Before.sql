@@ -1,4 +1,4 @@
-INSERT INTO notifications (id, recipient_id, text, time, is_viewed)
+INSERT INTO notifications (id, recipient_id, text, created_date, is_viewed)
 VALUES (1, 2, 'Explain Everything Whiteboard and LMSs', '20120618 12:34:09', false),
        (2, 2, 'Are you ready?', '20120624 10:34:09', false),
        (3, 2, 'Did you feel it?', '20120811 02:34:09', false),
