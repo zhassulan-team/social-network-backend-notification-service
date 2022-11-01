@@ -23,15 +23,13 @@ public class NotificationInternalRestController {
     private final NotificationService notificationService;
 
     @PostMapping
-    public ResponseEntity<Void> addNotification(@RequestBody @NotBlank String text,
+    public void addNotification(@RequestBody @NotBlank String text,
                                                 @RequestParam @Positive Long recipientId) {
         notificationService.addNotification(text, recipientId);
-        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/map")
-    public ResponseEntity<Void> addNotificationsByMap(@RequestBody Map<Long, String> notificationMap) {
+    public void addNotificationsByMap(@RequestBody Map<Long, String> notificationMap) {
         notificationService.addNotificationsByMap(notificationMap);
-        return ResponseEntity.ok().build();
     }
 }
