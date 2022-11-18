@@ -73,4 +73,18 @@ public class NotificationServiceImpl implements NotificationService {
     public void viewAllNotifications(Long recipientId) {
         notificationRepository.viewAllNotifications(recipientId);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public void deleteNotificationsByDate() {
+        List<Notification> listNotifications = notificationRepository.findAll();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime dateToDelete = localDateTime.plusMonths(-6);
+        for (Notification notification : listNotifications) {
+            if (notification.getCreatedDate() == dateToDelete) {
+                notificationRepository.delete(notification);
+            }
+        }
+    }
+
 }

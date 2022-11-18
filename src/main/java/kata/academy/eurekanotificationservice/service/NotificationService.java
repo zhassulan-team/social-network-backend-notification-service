@@ -17,4 +17,6 @@ public interface NotificationService {
     void viewAllNotifications(Long recipientId);
 
     void addNotificationsByMap(Map<Long, String> notificationMap);
+
+    void deleteNotificationsByDate();
 }
