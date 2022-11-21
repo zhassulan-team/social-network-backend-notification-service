@@ -37,14 +37,13 @@ public class NotificationInternalRestControllerIT extends SpringSimpleContextTes
                     .setParameter("recipientId", recipientId)
                     .setParameter("text", text)
                     .getSingleResult());
-
     }
 
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, value = "/scripts/inner/NotificationInternalRestController/addNotificationsByMap_SuccessfulTest/AfterTest.sql")
     void addNotificationsByMap_SuccessfulTest() throws Exception {
         Map<Long, String> notificationMap = new HashMap<>();
-        notificationMap.put(1L, "Hello World");
+        notificationMap.put(1L, "Hello World!");
         Long recipientId =null;
         String text = null;
         for (Map.Entry<Long, String> notificationEntry : notificationMap.entrySet()) {
