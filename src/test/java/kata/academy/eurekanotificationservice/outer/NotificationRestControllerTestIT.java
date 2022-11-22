@@ -7,7 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,7 +22,7 @@ class NotificationRestControllerTestIT extends SpringSimpleContextTest {
     void getNotificationPage_SuccessfulTest() throws Exception {
         Long recipientId = 1L;
         mockMvc.perform(get("/api/v1/notifications")
-                .header("userId", recipientId.toString())
+                .header("userId", recipientId)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements", Is.is(2)));
@@ -32,7 +34,7 @@ class NotificationRestControllerTestIT extends SpringSimpleContextTest {
     void getNotificationPage_ViewedTest() throws Exception {
         Long recipientId = 1L;
         mockMvc.perform(get("/api/v1/notifications?isViewed=true")
-                .header("userId", recipientId.toString())
+                .header("userId", recipientId)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements", Is.is(1)));
@@ -44,7 +46,7 @@ class NotificationRestControllerTestIT extends SpringSimpleContextTest {
     void viewAllNotifications_SuccessfulTest() throws Exception {
         Long recipientId = 1L;
         mockMvc.perform(put("/api/v1/notifications/")
-                .header("userId", recipientId.toString())
+                .header("userId", recipientId)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         assertFalse(entityManager.createQuery(
@@ -66,7 +68,7 @@ class NotificationRestControllerTestIT extends SpringSimpleContextTest {
         Long userId = 1L;
         boolean isViewed = true;
         mockMvc.perform(put("/api/v1/notifications/{notificationId}", notificationId)
-            .header("userId", userId.toString())
+            .header("userId", userId)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         assertTrue(entityManager.createQuery(
