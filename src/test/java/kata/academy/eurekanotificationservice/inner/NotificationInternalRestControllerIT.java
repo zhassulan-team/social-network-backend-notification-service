@@ -18,7 +18,7 @@ public class NotificationInternalRestControllerIT extends SpringSimpleContextTes
 
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, value = "/scripts/inner/NotificationInternalRestController/addNotification_SuccessfulTest/AfterTest.sql")
-    void addNotification_SuccessfulTest() throws Exception {
+  public void addNotification_SuccessfulTest() throws Exception {
 
             String text = "Hello World";
             Long recipientId = 1L;
@@ -41,15 +41,12 @@ public class NotificationInternalRestControllerIT extends SpringSimpleContextTes
 
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, value = "/scripts/inner/NotificationInternalRestController/addNotificationsByMap_SuccessfulTest/AfterTest.sql")
-    void addNotificationsByMap_SuccessfulTest() throws Exception {
+    public void addNotificationsByMap_SuccessfulTest() throws Exception {
+        Long recipientId =1L;
+        String text = "Hello World!";
         Map<Long, String> notificationMap = new HashMap<>();
-        notificationMap.put(1L, "Hello World!");
-        Long recipientId =null;
-        String text = null;
-        for (Map.Entry<Long, String> notificationEntry : notificationMap.entrySet()) {
-             recipientId = notificationEntry.getKey();
-             text = notificationEntry.getValue();
-        }
+        notificationMap.put(recipientId, text);
+
 
         mockMvc.perform(post("/api/internal/v1/notifications/map")
                         .content(new ObjectMapper().writeValueAsString(notificationMap))
