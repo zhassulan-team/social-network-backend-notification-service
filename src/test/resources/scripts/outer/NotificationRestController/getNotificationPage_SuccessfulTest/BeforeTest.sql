@@ -1,5 +1,27 @@
 INSERT INTO notifications(id, recipient_id, text, created_date, is_viewed)
-VALUES (1, 1, 'notification', '2022-11-20', false);
-INSERT INTO notifications(id, recipient_id, text, created_date, is_viewed)
-VALUES (2, 1, 'notification', '2022-11-20', true);
-
+VALUES
+    (1, 1, 'notification_text_1', '2022-01-12', false),
+    (2, 1, 'notification_text_2', '2022-01-31', true),
+    (3, 1, 'notification_text_3', '2022-01-24', false),
+    (4, 1, 'notification_text_4', '2022-01-7', false),
+    (5, 1, 'notification_text_5', '2022-01-12', false),
+    (6, 1, 'notification_text_6', '2022-01-28', true),
+    (7, 1, 'notification_text_7', '2022-01-24', false),
+    (8, 1, 'notification_text_8', '2022-01-23', true),
+    (9, 1, 'notification_text_9', '2022-01-27', true),
+    (10, 1, 'notification_text_10', '2022-01-6', false),
+    (11, 1, 'notification_text_11', '2022-01-31', false),
+    (12, 1, 'notification_text_12', '2022-01-8', true),
+    (13, 1, 'notification_text_13', '2022-01-11', false),
+    (14, 1, 'notification_text_14', '2022-01-5', true),
+    (15, 1, 'notification_text_15', '2022-01-7', false),
+    (16, 1, 'notification_text_16', '2022-01-11', false),
+    (17, 1, 'notification_text_17', '2022-01-22', true),
+    (18, 1, 'notification_text_18', '2022-01-29', false),
+    (19, 1, 'notification_text_19', '2022-01-8', false),
+    (20, 1, 'notification_text_20', '2022-01-8', true),
+    (21, 1, 'notification_text_21', '2022-01-13', false),
+    (22, 1, 'notification_text_22', '2022-01-2', true),
+    (23, 1, 'notification_text_23', '2022-01-25', true),
+    (24, 1, 'notification_text_24', '2022-01-17', false),
+    (25, 1, 'notification_text_25', '2022-01-20', true);
