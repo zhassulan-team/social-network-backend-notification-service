@@ -10,6 +10,7 @@ import kata.academy.eurekanotificationservice.repository.NotificationRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -20,10 +21,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_CLASS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DirtiesContext(classMode = BEFORE_CLASS)
 public class NotificationRestControllerTestIT extends SpringSimpleContextTest {
     @Autowired
     NotificationRepository repository;
@@ -112,11 +115,11 @@ public class NotificationRestControllerTestIT extends SpringSimpleContextTest {
             .andExpect(status().isOk());
         assertFalse(entityManager.createQuery(
                 """
-                        SELECT COUNT(n.id) > 0
-                        FROM Notification n
-                        WHERE n.recipientId = :recipientId
-                        AND n.isViewed = false
-                        """, Boolean.class)
+                SELECT COUNT(n.id) > 0
+                FROM Notification n
+                WHERE n.recipientId = :recipientId
+                AND n.isViewed = false
+                """, Boolean.class)
             .setParameter("recipientId", recipientId)
             .getSingleResult());
     }
@@ -133,12 +136,12 @@ public class NotificationRestControllerTestIT extends SpringSimpleContextTest {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         assertTrue(entityManager.createQuery(
-            """
-                    SELECT COUNT(n.id) = 1
-                    FROM Notification n
-                    WHERE n.id = :notificationId
-                    AND n.isViewed = :isViewed
-                    """, Boolean.class)
+                """
+                SELECT COUNT(n.id) = 1
+                FROM Notification n
+                WHERE n.id = :notificationId
+                AND n.isViewed = :isViewed
+                """, Boolean.class)
             .setParameter("notificationId", notificationId)
             .setParameter("isViewed", isViewed)
             .getSingleResult());
