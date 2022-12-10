@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kata.academy.eurekanotificationservice.SpringSimpleContextTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,22 +12,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-
+@DirtiesContext
 public class NotificationInternalRestControllerIT extends SpringSimpleContextTest {
-
-
 
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, value = "/scripts/inner/NotificationInternalRestController/addNotification_SuccessfulTest/AfterTest.sql")
-  public void addNotification_SuccessfulTest() throws Exception {
-
+    public void addNotification_SuccessfulTest() throws Exception {
             String text = "Hello World";
             Long recipientId = 1L;
             mockMvc.perform(post("/api/internal/v1/notifications")
-                             .content(text)
-                            .param("recipientId", String.valueOf(recipientId))
-                            .contentType(MediaType.APPLICATION_JSON))
-                            .andExpect(status().isOk());
+                    .content(text)
+                    .param("recipientId", String.valueOf(recipientId))
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
             assertTrue(entityManager.createQuery(
                             """
                                     SELECT COUNT(n.id) > 0
@@ -47,7 +45,6 @@ public class NotificationInternalRestControllerIT extends SpringSimpleContextTes
         Map<Long, String> notificationMap = new HashMap<>();
         notificationMap.put(recipientId, text);
 
-
         mockMvc.perform(post("/api/internal/v1/notifications/map")
                         .content(new ObjectMapper().writeValueAsString(notificationMap))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -63,10 +60,4 @@ public class NotificationInternalRestControllerIT extends SpringSimpleContextTes
                 .setParameter("text", text)
                 .getSingleResult());
     }
-
-
-
-
-
-
 }

@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import kata.academy.eurekanotificationservice.SpringSimpleContextTest;
 import kata.academy.eurekanotificationservice.entity.Notification;
-import kata.academy.eurekanotificationservice.repository.NotificationRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
@@ -21,15 +19,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_CLASS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DirtiesContext(classMode = BEFORE_CLASS)
+@DirtiesContext
 public class NotificationRestControllerTestIT extends SpringSimpleContextTest {
-    @Autowired
-    NotificationRepository repository;
 
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, value = "/scripts/outer/NotificationRestController/getNotificationPage_SuccessfulTest/BeforeTest.sql")
@@ -44,13 +39,13 @@ public class NotificationRestControllerTestIT extends SpringSimpleContextTest {
         int totalPages = (totalElements / defaultPageSize) + 1;
 
         List<Notification> expectedResult = entityManager.createQuery(
-                                                                    """
-                                                                    SELECT n
-                                                                    FROM Notification n
-                                                                    ORDER BY n.id
-                                                                    """, Notification.class)
-                                                            .setMaxResults(20)
-                                                            .getResultList();
+                """
+                SELECT n
+                FROM Notification n
+                ORDER BY n.id
+                """, Notification.class)
+            .setMaxResults(20)
+            .getResultList();
 
         MvcResult result = mockMvc.perform(get("/api/v1/notifications")
                 .header("userId", recipientId)
