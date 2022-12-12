@@ -73,4 +73,10 @@ public class NotificationServiceImpl implements NotificationService {
     public void viewAllNotifications(Long recipientId) {
         notificationRepository.viewAllNotifications(recipientId);
     }
+
+
+    @Override
+    public void deleteNotificationsByDate() {
+        notificationRepository.deleteNotificationsByDate(LocalDateTime.now().plusMonths(-6));
+    }
 }
